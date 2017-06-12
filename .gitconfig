@@ -1,0 +1,49 @@
+[user]
+	name =
+	email =
+[push]
+	; for git 1.8
+	default = simple
+[core]
+	editor = vim
+	quotepath = false
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[difftool]
+	prompt = false
+
+[alias]
+	st = status
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+#    %Cred: switch color to red
+#    %h: abbreviated commit hash
+#    %Creset: reset color
+#    %C(...): color specification
+#    %d: ref names, like the --decorate option of git-log(1)
+#    %cr: committer date, relative 
+#    %an: author name
+	ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	b = branch
+	ci = commit
+	ca = commit -a
+	pl = pull
+	ps = push
+	co = checkout
+
+[color]
+	ui = always
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
