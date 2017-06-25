@@ -35,7 +35,7 @@ au BufNewFile,BufRead *.py
 \ set autoindent |
 \ set fileformat=unix
 
-au BufNewFile,BufRead *.js, *.html, *.css
+au BufNewFile,BufRead *.html,*.css,*.js
 \ set tabstop=2 |
 \ set softtabstop=2 |
 \ set autoindent |
@@ -121,6 +121,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-powerline'
+Plugin 'taglist.vim'
+Plugin 'fholgado/minibufexpl.vim'
+"Plugin 'winmanager'
 " ...
 
 filetype plugin indent on     " required!
@@ -134,8 +137,22 @@ filetype plugin indent on     " required!
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 
+" For minbufexplorer
+let g:miniBufExplorerAutoStart = 0
+map <Leader>mbt :MBEToggle<cr>
+
 " For simplefold
 let g:SimpylFold_docstring_preview=0
+
+" For winManager
+"let g:winManagerWindowLayout='NERDTree|Taglist'
+let g:AutoOpenWinManager = 1
+
+" For taglist
+map <silent> <leader>tl :TlistToggle<cr> "To define a mapping which will not be echoed on the command line,即不回显
+let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
+let Tlist_Exit_OnlyWindow = 1          "如果taglist窗口是最后一个窗口，则退出vim
+let Tlist_Use_Right_Window = 1         "在右侧窗口中显示taglist窗口
 
 " For simplefold
 set laststatus=2   " Always show the statusline
@@ -198,3 +215,4 @@ map <leader>l <Plug>(easymotion-lineforward)
 "直接:help ,然后搜索filetype，使用Ctrl + ]当光标在链接位置的时候，可以直接跳到链接内容，链接一般是蓝色,使用Ctrl + t，返回上次页面
 "filetype不是选项和set是并列的,直接:filetype 就可以看filetype设置了哪些。
 "help NERD_tree.txt(插件帮助）
+"ctags用法：在code目录执行 ctags -R. 然后，进入文件 ctrl + ] 就可以跳转了。

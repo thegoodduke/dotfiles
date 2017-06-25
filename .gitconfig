@@ -19,6 +19,7 @@
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 #    %Cred: switch color to red
 #    %h: abbreviated commit hash
+#    %s: subject
 #    %Creset: reset color
 #    %C(...): color specification
 #    %d: ref names, like the --decorate option of git-log(1)
