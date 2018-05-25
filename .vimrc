@@ -30,9 +30,8 @@ au BufNewFile,BufRead *.py
 \ set tabstop=4 |
 \ set softtabstop=4 |
 \ set shiftwidth=4 |
-\ set textwidth=79 |
-\ set expandtab |
 \ set autoindent |
+\ set expandtab |
 \ set fileformat=unix
 
 au BufNewFile,BufRead *.html,*.css,*.js
@@ -95,6 +94,7 @@ syntax on
 "==========================================
 " 设置新文件的编码为 UTF-8
 set fileencoding=utf8
+set fileencodings=utf-8,gb2312
 
 "==========================================
 "" vundle
@@ -117,6 +117,7 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'nvie/vim-flake8'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'scrooloose/syntastic'
+Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
@@ -136,6 +137,16 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
+
+" For flake8
+autocmd BufWritePost *.py call Flake8()
+
+" For indent-guides
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+"let g:indent_guides_enable_on_vim_startup = 1
+"The default mapping to toggle the plugin is <Leader>ig.
+"IndentGuidesToggle
 
 " For minbufexplorer
 let g:miniBufExplorerAutoStart = 0
