@@ -13,7 +13,7 @@ VUNDLE=${HOME}"/.vim/bundle/vundle"
 
 # Pre check
 check_software_exist(){
-	softwares=("zsh" "tmux" "vim" "git")
+	softwares=("tmux" "vim" "git")
 	for sw in "${softwares[@]}"
 	do
 		# Notice the semicolon
@@ -23,7 +23,7 @@ check_software_exist(){
 }
 
 create_symlinks(){
-	dotfiles=(".zshrc" ".bash_profile" ".tmux.conf" ".vimrc" ".gitconfig" ".muttrc")
+	dotfiles=(".bash_profile" ".tmux.conf" ".vimrc" ".gitconfig" ".muttrc")
 	for dotfile in "${dotfiles[@]}"
 	do
 		ln -sf ${PWD}/${dotfile} ${HOME}/${dotfile}
@@ -79,10 +79,10 @@ config_tmux(){
 
 main(){
 	check_software_exist
-	install_oh_my_zsh
+	# install_oh_my_zsh
 	install_vundle
 	create_symlinks
-	config_zsh
+	# config_zsh
 	config_tmux
 }
 

@@ -32,6 +32,7 @@
 	pl = pull
 	ps = push
 	co = checkout
+	d = diff
 
 [color]
 	ui = always
