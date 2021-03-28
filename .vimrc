@@ -7,7 +7,7 @@ set nocompatible               " be iMproved
 "==========================================
 "General
 "==========================================
-
+"filetype plugin on
 " history存储长度
 set history=100
 
@@ -20,24 +20,22 @@ filetype plugin on
 "以上三项设置的简写
 "filetype plugin indent on
 
-"set autoindent
+set autoindent
 "set cindent
 
 "==========================================
 " autocmd
 "==========================================
-au BufNewFile,BufRead *.py
+au BufNewFile,BufRead *.py,*.c
 \ set tabstop=4 |
 \ set softtabstop=4 |
 \ set shiftwidth=4 |
-\ set autoindent |
 \ set expandtab |
 \ set fileformat=unix
 
 au BufNewFile,BufRead *.html,*.css,*.js
 \ set tabstop=2 |
 \ set softtabstop=2 |
-\ set autoindent |
 \ set shiftwidth=2
 
 highlight BadWhitespace ctermbg=red guibg=darkred
@@ -48,7 +46,7 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 "==========================================
 
 set number                  " 行号
-set wrap
+"set wrap
 set showmatch               " 匹配括号高亮
 
 " 高亮搜索
@@ -62,7 +60,7 @@ set smartcase
 set expandtab
 "1 tab == 4 spaces
 "(自动) 缩进每一步使用的空白数目
-set shiftwidth=4
+"set shiftwidth=4
 " 文件里的 <Tab> 代表的空格数
 set tabstop=4
 " 按退格键时可以一次删掉 4 个空格
@@ -85,6 +83,7 @@ set showcmd
 ""colors and fonts
 "==========================================
 ""开启语法高亮
+execute pathogen#infect()
 syntax enable
 syntax on
 
@@ -103,16 +102,32 @@ set fileencodings=utf-8,gb2312
 set nocompatible               " be iMproved
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-" My Bundles here:
-"
-" original repos on github
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" ..................
 Plugin 'easymotion/vim-easymotion'
 Plugin 'nvie/vim-flake8'
 "Plugin 'Valloric/YouCompleteMe'
@@ -122,25 +137,40 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-powerline'
-Plugin 'taglist.vim'
+"Plugin 'taglist.vim'
 Plugin 'fholgado/minibufexpl.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'vim-syntastic/syntastic'
 "Plugin 'winmanager'
-" ...
+" ..................
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
 filetype plugin indent on     " required!
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
 "
 " Brief help
-" :PluginList          - list configured bundles
-" :PluginInstall(!)    - install(update) bundles
-" :PluginSearch(!) foo - search(or refresh cache first) for foo
-" :PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
+" Put your non-Plugin stuff after this line
 
+" For syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
 " For flake8
 autocmd BufWritePost *.py call Flake8()
-
 " For indent-guides
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
@@ -153,7 +183,7 @@ let g:miniBufExplorerAutoStart = 0
 map <Leader>mbt :MBEToggle<cr>
 
 " For simplefold
-let g:SimpylFold_docstring_preview=0
+"let g:SimpylFold_docstring_preview=0
 
 " For winManager
 "let g:winManagerWindowLayout='NERDTree|Taglist'
@@ -185,6 +215,9 @@ let g:nerdtree_tabs_open_on_console_startup=0
 let NERDTreeIgnore=['\.pyc','\~$','\.swp']
 " " 显示书签列表
 let NERDTreeShowBookmarks=1
+
+" For vim-markdown
+let g:vim_markdown_folding_disabled = 1
 
 " For Nerdtree-tabs
 map <Leader>n <plug>NERDTreeTabsToggle<CR>
