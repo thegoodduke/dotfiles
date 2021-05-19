@@ -1,4 +1,5 @@
 export LANG="en_US.UTF-8"
+export BASH_SILENCE_DEPRECATION_WARNING=1
 source ~/.git-completion.bash
 alias ub1404='ssh root@10.0.0.143'
 alias mini='ssh root@10.0.0.155'
