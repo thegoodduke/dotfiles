@@ -1,0 +1,16 @@
+StrictHostKeyChecking no
+#UserKnownHostsFile /dev/null
+#ForwardAgent yes
+
+Host syslog
+  User app
+  Hostname 10.10.3.30
+ 
+# for temp
+Host electron
+  User ops
+
+# Host * 要放在最后，放在前面会先匹配到
+Host *
+  # User root 不能放在全局，ssh_config 在前面的配置生效，后面配置不会覆盖前面的配置
+  User root

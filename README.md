@@ -5,11 +5,9 @@ for the followings:
 * tmux
 * mutt
 * git
-* bash
-* zsh
+* bash-it
 
 ## todo
  
  * vim插件
  * .gitignore
- * zsh-theme

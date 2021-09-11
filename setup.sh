@@ -1,89 +1,77 @@
-#!/bin/zsh
+#!/bin/bash
 
-# First, **make sure** all the softwares have been installed.
-#	* zsh
-#	* tmux
-#	* vim
-#	* git
+PROGPATH=$(realpath ${BASH_SOURCE})
+DWORK=$(dirname ${PROGPATH})
 
-HOME=${HOME}
-PWD=`pwd`
-OH_MY_ZSH=${HOME}"/.oh-my-zsh"
-VUNDLE=${HOME}"/.vim/bundle/vundle"
+BASHIT=${HOME}"/.bash_it"
+VUNDLE=${HOME}"/.vim/bundle/Vundle.vim"
 
-# Pre check
 check_software_exist(){
-	softwares=("tmux" "vim" "git")
-	for sw in "${softwares[@]}"
-	do
-		# Notice the semicolon
-		type ${sw} > /dev/null 2>&1 || 
-			{ echo >&2 "ERROR: **${sw}** is not installed!"; exit 1; }
-	done
+    softwares=("tmux" "vim" "git")
+    for sw in "${softwares[@]}"; do
+        type ${sw} > /dev/null 2>&1 || 
+        	{ echo >&2 "ERROR: **${sw}** is not installed!"; exit 1; }
+    done
 }
 
 create_symlinks(){
-	dotfiles=(".bash_profile" ".tmux.conf" ".vimrc" ".gitconfig" ".muttrc")
-	for dotfile in "${dotfiles[@]}"
-	do
-		ln -sf ${PWD}/${dotfile} ${HOME}/${dotfile}
-		echo "Create symlink ${HOME}/${dotfile}"
-	done
+    dotfiles=(".bash_profile" ".bashrc" ".tmux.conf" ".vimrc" ".gitconfig" ".muttrc")
+    for dotfile in "${dotfiles[@]}"; do
+        ln -sf ${DWORK}/${dotfile} ${HOME}/${dotfile}
+        echo "Create symlink ${HOME}/${dotfile}"
+    done
 }
 
-install_oh_my_zsh(){
-	if [ -d "${OH_MY_ZSH}"  ]; then
-		cd "${OH_MY_ZSH}"
-		echo "Change directory to `pwd`"
-		echo "${OH_MY_ZSH} exists. Git pull to update..."
-		git pull
-		cd - > /dev/null 2>&1
-		echo "Change directory back to `pwd`"
-	else
-		echo "${OH_MY_ZSH} not exists. Install..."
-		#git clone git@github.com:robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
-		#wget --no-check-certificate http://install.ohmyz.sh -O - | sh
-		git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
-	fi
+install_bashit(){
+    if [ -d "${BASHIT}" ]; then
+        cd "${BASHIT}"
+        echo "Change directory to `pwd`"
+        echo "${BASHIT} exists. Git pull to update..."
+        # git pull
+        cd - > /dev/null 2>&1
+        echo "Change directory back to `pwd`"
+    else
+        echo "${BASHIT} not exists. Install..."
+        git clone --depth=1 https://github.com/Bash-it/bash-it.git ${BASHIT}
+        ${BASHIT}/install.sh
+    fi
 }
 
 # Vim install `Vundle` and plugins
 install_vundle(){
-	if [ -d "${VUNDLE}" ]; then
-		cd "${VUNDLE}"
-		echo "Change directory to `pwd`"
-		echo "${VUNDLE} exists. Git pull to update..."
-		git pull
-		cd - > /dev/null 2>&1
-		echo "Change directory back to `pwd`"
-	else
-		echo "${VUNDLE} not exists. Git clone to create..."
-		git clone https://github.com/gmarik/Vundle.vim.git ${VUNDLE}
-		vim +PluginInstall +qall
-	fi
+    if [ -d "${VUNDLE}" ]; then
+        cd "${VUNDLE}"
+        echo "Change directory to `pwd`"
+        echo "${VUNDLE} exists. Git pull to update..."
+        # git pull
+        cd - > /dev/null 2>&1
+        echo "Change directory back to `pwd`"
+    else
+        echo "${VUNDLE} not exists. Git clone to create..."
+        git clone https://github.com/VundleVim/Vundle.vim.git ${VUNDLE}
+        vim +PluginInstall +qall
+    fi
 }
 
-config_zsh(){
-	echo "Create symlink ${HOME}/.zsh"
-	ln -sf ${PWD}/.zsh ${HOME}/.zsh
-	# TODO: See ~/.oh-my-zsh/custom/
-	ln -sf ${PWD}/duke.zsh-theme ${OH_MY_ZSH}/themes/duke.zsh-theme
-	chsh -s `which zsh` # TODO: If zsh is an alias?
-	source ${HOME}/.zshrc
+config_bashit(){
+    ln -sf ${DWORK}/custom.aliases.bash ${BASHIT}/aliases/custom.aliases.bash
+    echo "Create symlink ${BASHIT}/aliases/custom.aliases.bash"
+    source ${HOME}/.bash_profile
 }
 
-config_tmux(){
-	echo "Create symlink ${HOME}/.tmux.sh"
-	ln -sf ${PWD}/.tmux.sh ${HOME}/.tmux.sh # TODO, use alise?
+config_ssh(){
+    [ -d ${HOME}/.ssh ] || mkdir ${HOME}/.ssh
+    ln -sf ${DWORK}/ssh_config ${HOME}/.ssh/config
+    echo "Create symlink ${HOME}/.ssh/config"
 }
 
 main(){
-	check_software_exist
-	# install_oh_my_zsh
-	install_vundle
-	create_symlinks
-	# config_zsh
-	config_tmux
+    check_software_exist
+    install_bashit
+    install_vundle
+    create_symlinks
+    config_ssh
+    config_bashit
 }
 
 main
